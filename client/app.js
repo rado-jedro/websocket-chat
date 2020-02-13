@@ -21,10 +21,12 @@ const messageContentInput = document.getElementById('message-content');
 //global variable - user login
 let userName = '';
 
+messagesSection.classList.remove('show'); 
+
 socket.on('message', ({ author, content }) => addMessage(author, content))
 
 function login() {
-  if (userNameInput.value.length === '') {
+  if (userNameInput.value === '') {
     window.alert('Enter your nickname');
   } else {
     userName = userNameInput;
@@ -34,7 +36,6 @@ function login() {
 }
 
 function sendMessage(e) {
-  e.preventDefault();
 
   let messageContent = messageContentInput.value;
 
