@@ -1,3 +1,5 @@
+const socket = io();
+
 //ref to login form
 const loginForm = document.getElementById('welcome-form');
 
@@ -19,6 +21,8 @@ const messageContentInput = document.getElementById('message-content');
 //global variable - user login
 let userName = '';
 
+socket.on('message', ({ author, content }) => addMessage(author, content))
+
 function login() {
   if (userNameInput.value.length === '') {
     window.alert('Enter your nickname');
@@ -29,13 +33,20 @@ function login() {
   }
 }
 
-function sendMessage() {
-  if (messageContentInput.value.length === '') {
-    window.alert('Enter your message');
-  } else {
-    addMessage(userName, messageContentInput.value);
+function sendMessage(e) {
+  e.preventDefault();
+
+  let messageContent = messageContentInput.value;
+
+  if(!messageContent.length) {
+    alert('You have to type something!');
+  }
+  else {
+    addMessage(userName, messageContent);
+    socket.emit('message', { author: userName, content: messageContent })
     messageContentInput.value = '';
   }
+
 }
 
 function addMessage(author, content) {
@@ -43,11 +54,11 @@ function addMessage(author, content) {
   message.classList.add('message', 'message--received');
   if (author === userName) message.classList.add('message--self');
   message.innerHTML = `
-    <h3 class="message__author">${userName === author ? 'You' : author}</h3>
-    <div class="message__content">
-      ${content}
-    </div>
-  `;
+  <h3 class="message__author">${userName === author ? 'You' : author}</h3>
+  <div class="message__content">
+    ${content}
+  </div>
+`;
   messagesList.appendChild(message);
 }
 
