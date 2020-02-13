@@ -29,7 +29,7 @@ function login() {
   if (userNameInput.value === '') {
     window.alert('Enter your nickname');
   } else {
-    userName = userNameInput;
+    userName = userNameInput.value;
     loginForm.classList.remove('show');
     messagesSection.classList.add('show');
   }
