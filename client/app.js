@@ -23,31 +23,33 @@ let userName = '';
 
 messagesSection.classList.remove('show'); 
 
-socket.on('message', ({ author, content }) => addMessage(author, content))
+socket.on('message', ({ author, content }) => addMessage(author, content));
+
+socket.on('join', user => addMessage('Chat Bot', `<i><b>${user}</b> has joined the conversation!</i>`));
+
+socket.on('leave', user => addMessage('Chat Bot', `<i><b>${user}</b> has left the conversation... :( </i>`));
 
 function login() {
   if (userNameInput.value === '') {
     window.alert('Enter your nickname');
   } else {
     userName = userNameInput.value;
+    socket.emit('join', userName);
     loginForm.classList.remove('show');
     messagesSection.classList.add('show');
   }
 }
 
 function sendMessage(e) {
-
   let messageContent = messageContentInput.value;
 
-  if(!messageContent.length) {
+  if (!messageContent.length) {
     alert('You have to type something!');
-  }
-  else {
+  } else {
     addMessage(userName, messageContent);
-    socket.emit('message', { author: userName, content: messageContent })
+    socket.emit('message', { author: userName, content: messageContent });
     messageContentInput.value = '';
   }
-
 }
 
 function addMessage(author, content) {
