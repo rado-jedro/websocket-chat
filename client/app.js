@@ -19,8 +19,10 @@ const messageContentInput = document.getElementById('message-content');
 //global variable - user login
 let userName = '';
 
+messagesSection.classList.remove('show');
+
 function login() {
-  if (userNameInput.value.length === '') {
+  if (userNameInput.value === '') {
     window.alert('Enter your nickname');
   } else {
     userName = userNameInput;
@@ -30,7 +32,7 @@ function login() {
 }
 
 function sendMessage() {
-  if (messageContentInput.value.length === '') {
+  if (messageContentInput.value === '') {
     window.alert('Enter your message');
   } else {
     addMessage(userName, messageContentInput.value);
