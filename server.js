@@ -37,7 +37,7 @@ io.on('connection', socket => {
     for (let activeUser of users) {
       if (activeUser.id === socket.id) {
         const index = users.indexOf(activeUser);
-        users.splice(index,activeUser.id);
+        users.splice(index, 1);
         socket.broadcast.emit('leave', activeUser.user);
       }
     }
